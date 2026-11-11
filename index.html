@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شفرة</title>
+    <title>شفرة - الوعي القرآني</title>
     <style>
         :root {
             --bg-color: #f5f2eb;
             --card-bg: #ffffff;
             --primary: #1b4d3e;
-            --primary-hover: #14382d;
+            --primary-hover: #14382d; المؤشر
             --text-main: #000000;
             --text-sub: #444444;
             --border: #e2ddd5;
@@ -34,7 +34,7 @@
             padding: 32px 28px;
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
-            max-width: 520px;
+            max-width: 540px;
             width: 100%;
         }
 
@@ -51,19 +51,49 @@
 
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         h1 {
             color: var(--primary);
-            font-size: 26px;
+            font-size: 28px;
             margin: 0 0 6px 0;
         }
 
         .subtitle {
-            color: var(--text-sub);
+            color: var(--primary);
             font-size: 14px;
-            margin: 0;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+        }
+
+        .app-description {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.7;
+            background-color: var(--accent-soft);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-top: 8px;
+            text-align: justify;
+            min-height: 65px;
+        }
+
+        /* مؤشر الكتابة الوامض */
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 14px;
+            background-color: var(--primary);
+            margin-right: 3px;
+            vertical-align: middle;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         .tags-label {
@@ -142,21 +172,43 @@
 
         .result {
             margin-top: 24px;
-            padding: 18px;
+            padding: 20px;
             background-color: var(--accent-soft);
             border: 1px solid var(--border);
             border-radius: 10px;
             text-align: right;
             color: var(--text-main);
             display: none;
-            line-height: 1.6;
+            line-height: 1.8;
+        }
+
+        .result-section {
+            margin-bottom: 14px;
+        }
+
+        .result-section:last-child {
+            margin-bottom: 0;
         }
 
         .result-title {
             font-weight: bold;
             color: var(--primary);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quran-verse {
+            font-style: italic;
+            color: #2c5e4b;
+            background-color: #f0ebe1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 6px 0;
+            display: block;
+            font-weight: 500;
         }
 
         .stats-counter {
@@ -197,100 +249,132 @@
 
     <div class="container">
         <div class="quote-box" id="quoteBox">
-            "الأفكار ليست حقائق، بل هي مجرد اقتراحات يقدمها عقلك."
+            "وإن يمسسك الله بضر فلا كاشف له إلا هو"
         </div>
 
         <header>
             <h1>شفرة</h1>
-            <p class="subtitle">إعادة صياغة الأفكار وتفكيك التشوهات الإدراكية</p>
+            <p class="subtitle">تفكيك الأفكار وتأسيس الوعي القرآني</p>
+            <div class="app-description" id="typedDescription">
+                <span class="cursor"></span>
+            </div>
         </header>
         
-        <span class="tags-label">اختر نمط التفكير (اختياري):</span>
+        <span class="tags-label">اختر طبيعة الشعور أو الفكرة:</span>
         <div class="tags-container">
-            <span class="tag" onclick="toggleTag(this)">تهويل الأمور</span>
-            <span class="tag" onclick="toggleTag(this)">التعميم المطلق</span>
-            <span class="tag" onclick="toggleTag(this)">لوم الذات</span>
-            <span class="tag" onclick="toggleTag(this)">التفكير الأسود/الأبيض</span>
+            <span class="tag" onclick="toggleTag(this)">قلق المستقبل</span>
+            <span class="tag" onclick="toggleTag(this)">ظن وسوء تفاهم</span>
+            <span class="tag" onclick="toggleTag(this)">عجز وضغط نفسي</span>
+            <span class="tag" onclick="toggleTag(this)">شعور باليأس والتهويل</span>
         </div>
 
-        <textarea id="userInput" placeholder="اكتب الفكرة أو الموقف الذي يشغل بالك هنا..."></textarea>
+        <textarea id="userInput" placeholder="اكتب الفكرة، الموقف، أو الشعور الذي يشغل بالك هنا..."></textarea>
         
         <button id="submitBtn" onclick="processIdea()">
             <span class="spinner" id="btnSpinner"></span>
-            <span id="btnText">إعادة التشكيل والإصلاح</span>
+            <span id="btnText">تأسيس الوعي وإيجاد الحل العملي</span>
         </button>
 
         <div class="result" id="resultBox">
-            <div class="result-title">التحليل والتأطير الجديد (شفرة):</div>
-            <div id="resultText"></div>
+            <div class="result-section">
+                <div class="result-title">1. تأصيل الفكرة من الوعي القرآني:</div>
+                <div id="quranRoot"></div>
+            </div>
+            
+            <div class="result-section">
+                <div class="result-title">2. التفكيك المعرفي وإعادة التأطير:</div>
+                <div id="reframingText"></div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-title">3. الحل العملي المستنبط:</div>
+                <div id="practicalSolution"></div>
+            </div>
         </div>
 
         <div class="stats-counter">
-            <span>الأفكار المُعاد تشكيلها اليوم:</span>
+            <span>الأفكار المُعالجة اليوم:</span>
             <span class="counter-badge" id="ideaCount">0</span>
         </div>
     </div>
 
     <script>
         const quotes = [
-            "\"الأفكار ليست حقائق، بل هي مجرد اقتراحات يقدمها عقلك.\"",
-            "\"طريقة تفسيرك للموقف هي ما يحدد شعورك، وليس الموقف نفسه.\"",
-            "\"تغيير نظرتك للأمور يحول العقبات إلى مسارات جديدة.\"",
-            "\"ما تشعر به الآن هو عاطفة مؤقتة وليست حقيقتك المطلقة.\""
+            "\"وإن يمسسك الله بضر فلا كاشف له إلا هو\"",
+            "\"ما أصاب من مصيبة إلا بإذن الله ومن يؤمن بالله يهدي قلبه\"",
+            "\"إن مع العسر يسرا\"",
+            "\"ألا بذكر الله تطمئن القلوب\""
         ];
 
         let count = 0;
         document.getElementById('quoteBox').innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
+        // تأثير الكتابة حرفاً حرفاً للنص التعريفي عند فتح الصفحة
+        const textToType = "مساحة تفاعلية لإعادة بناء طريقة التفكير وإعادة التأطير الوجداني والمعرفي للأفكار والمشكلات، بالاستناد إلى بصائر الوعي القرآني، وتحويل الضغوط والمخاوف إلى رؤية واضحة وحلول عملية مبسطة تجلب السكينة والطمأنينة.";
+        const typedContainer = document.getElementById('typedDescription');
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (charIndex < textToType.length) {
+                // إدراج الحرف قبل مؤشر الكتابة
+                const cursor = typedContainer.querySelector('.cursor');
+                const textNode = document.createTextNode(textToType.charAt(charIndex));
+                typedContainer.insertBefore(textNode, cursor);
+                charIndex++;
+                setTimeout(typeWriter, 25); // سرعة الكتابة (كلما قل الرقم زادت السرعة)
+            } else {
+                // إزالة المؤشر بعد انتهاء الكتابة تماماً
+                const cursor = typedContainer.querySelector('.cursor');
+                if (cursor) cursor.remove();
+            }
+        }
+
+        // بدء التأثير بعد تحميل الصفحة بقليل
+        window.onload = function() {
+            setTimeout(typeWriter, 400);
+        };
+
         function toggleTag(element) {
             element.classList.toggle('active');
         }
 
-        // قاعدة بيانات تحليلية ذكية ومتنوعة تتغير حسب المضمون
-        const analysisResponses = [
-            (input, tag) => `<strong>الرصد:</strong> الفكرة المدخلة (${input}) تتضمن نمطاً من تضخيم الضغط الذهني.<br><strong>إعادة التأطير:</strong> الأمور تبدو حادة لأنك تنظر إليها ككل متصل. افصل بين الواقع الفعلي وتفسيرك الشخصي له، وسترى أن الخيارات المتاحة أمامك أكثر مرونة بكثير.`,
-            
-            (input, tag) => `<strong>الرصد:</strong> من خلال عبارة (${input})، يبدو أن هناك ميلاً لاستباق النتائج السلبية.<br><strong>إعادة التأطير:</strong> العقل يميل أحياناً لحماية نفسه عبر تخриب الاحتمالات. جرب أن تعود للخطوة الحالية البسيطة وركز على ما يمكنك التحكم فيه الآن فقط.`,
-            
-            (input, tag) => `<strong>الرصد:</strong> الفكرة (${input}) تحمل طابع القسوة في تقييم الذات أو الموقف.<br><strong>إعادة التأطير:</strong> الحكم المطلق يغفل التفاصيل والظروف المحيطة. امنح نفسك مساحة للتجربة بمعزل عن المثالية الصارمة، فالتطور يحدث عبر الخطوات المتوازنة لا الدفعات القسرية.`,
-            
-            (input, tag) => `<strong>الرصد:</strong> رصدنا في نصك (${input}) توجهاً لاعتبار العوائق المؤقتة نهايات حتمية.<br><strong>إعادة التأطير:</strong> العقبة ليست سوى بيانات إضافية يرسلها الموقف لتعديل بوصلتك. أعد صياغة السؤال من "لماذا يحدث هذا لي؟" إلى "ما الذي يتيحه لي هذا الظرف؟".`
-        ];
-
         function processIdea() {
             const input = document.getElementById('userInput').value.trim();
             if (!input) {
-                alert('يرجى كتابة فكرة أو مشكلة أولاً قبل البدء بتفكيكها.');
+                alert('يرجى كتابة الفكرة أو الشعور أولاً.');
                 return;
             }
 
             const activeTag = document.querySelector('.tag.active');
-            const tagText = activeTag ? activeTag.innerText : 'عام';
+            const tagText = activeTag ? activeTag.innerText : 'الوعي العام';
 
             const btnText = document.getElementById('btnText');
             const btnSpinner = document.getElementById('btnSpinner');
             const resultBox = document.getElementById('resultBox');
-            const resultText = document.getElementById('resultText');
+            
+            const quranRoot = document.getElementById('quranRoot');
+            const reframingText = document.getElementById('reframingText');
+            const practicalSolution = document.getElementById('practicalSolution');
             const counter = document.getElementById('ideaCount');
 
             btnSpinner.style.display = 'inline-block';
-            btnText.innerText = 'جاري تفكيك الشفرة وتحليل الفكرة...';
+            btnText.innerText = 'جاري استجلاء الوعي القرآني واستنباط الحل...';
             resultBox.style.display = 'none';
 
             setTimeout(() => {
                 btnSpinner.style.display = 'none';
-                btnText.innerText = 'إعادة التشكيل والإصلاح';
+                btnText.innerText = 'تأسيس الوعي وإيجاد الحل العملي';
                 
-                // اختيار رد عشوائي ومتغير في كل مرة بناءً على النص والتاغ
-                const randomIndex = Math.floor(Math.random() * analysisResponses.length);
-                const generatedAnalysis = analysisResponses[randomIndex](input, tagText);
+                quranRoot.innerHTML = `هذه الفكرة (${input}) تتعلق بـ (${tagText}). يخبرنا القرآن الكريم أن الخواطر التي تُقلق الإنسان غالباً ما تنبع من استباق الأقدار أو تضخيم المخاوف، وكما قال تعالى: <span class="quran-verse">"إن الظن لا يغني من الحق شيئاً"</span>، فالقلب حين يغفل عن اليقين يستوحش من الظنون.`;
 
-                resultText.innerHTML = generatedAnalysis;
+                reframingText.innerHTML = `عقلك يتعامل مع فكرتك الحالية على أنها مأزق نهائي أو تهديد حقيقي، بينما هي في ميزان القرآن مجرد اختبار مؤقت أو "ابتلاء تقدير" لحكمة بالغة. الله سبحانه وتعالى لا يُحمل نفساً فوق وسعها، وما يبدو لك عقبة صعبة هو مسار إرساء للثقة والتوكل.`;
+
+                practicalSolution.innerHTML = `<strong>الخطوة العملية:</strong> حرر مشاعرك من السيطرة الوهمية عبر تفويض الأمر (التوكل الفعلي)، وقسّم التحدي إلى عمل يومي صغير ومحدد، واردد بقلبك يقين الآية: <span class="quran-verse">"حسبي الله لا إله إلا هو عليه توكلت"</span> مع التركيز فقط على ما يقع ضمن قدرتك وصلاحيتك اليوم.`;
+
                 resultBox.style.display = 'block';
-                
                 count++;
                 counter.innerText = count;
-            }, 800);
+            }, 1000);
         }
     </script>
 
