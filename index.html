@@ -38,12 +38,40 @@
             width: 100%;
         }
 
+        .settings-toggle {
+            font-size: 12px;
+            color: var(--primary);
+            cursor: pointer;
+            text-align: left;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .api-box {
+            background-color: var(--accent-soft);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .api-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+
         .quote-box {
             background-color: var(--accent-soft);
             border-right: 3px solid var(--primary);
             padding: 12px 16px;
             border-radius: 6px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             font-size: 13px;
             color: var(--text-sub);
             line-height: 1.6;
@@ -149,6 +177,7 @@
             text-align: right;
             color: var(--text-main);
             display: none;
+            white-space: pre-wrap;
         }
 
         .result-title {
@@ -195,6 +224,13 @@
 <body>
 
     <div class="container">
+        <!-- إعدادات مفتاح الـ API -->
+        <span class="settings-toggle" onclick="toggleApiBox()">⚙️ إعدادات مفتاح الذكاء الاصطناعي (API Key)</span>
+        <div class="api-box" id="apiBox">
+            <label style="font-size: 12px; font-weight: bold;">أدخل مفتاح Google Gemini API:</label>
+            <input type="password" id="apiKeyInput" placeholder="AIzaSy..." onchange="saveApiKey()">
+        </div>
+
         <div class="quote-box" id="quoteBox">
             "الأفكار ليست حقائق، بل هي مجرد اقتراحات يقدمها عقلك."
         </div>
@@ -220,8 +256,8 @@
         </button>
 
         <div class="result" id="resultBox">
-            <div class="result-title">التحليل والتأطير الجديد (حسب شفرة):</div>
-            <p id="resultText" style="margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-main);"></p>
+            <div class="result-title">التحليل والتأطير الجديد:</div>
+            <div id="resultText"></div>
         </div>
 
         <div class="stats-counter">
@@ -240,16 +276,46 @@
         let count = 0;
         document.getElementById('quoteBox').innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
+        // استرجاع المفتاح المحفوظ مسبقاً إن وجد
+        window.onload = function() {
+            const savedKey = localStorage.getItem('gemini_api_key');
+            if (savedKey) {
+                document.getElementById('apiKeyInput').value = savedKey;
+            }
+        };
+
+        function toggleApiBox() {
+            const box = document.getElementById('apiBox');
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            localStorage.setItem('gemini_api_key', key);
+            alert('تم حفظ مفتاح الـ API بنجاح في متصفحك!');
+        }
+
         function toggleTag(element) {
             element.classList.toggle('active');
         }
 
         async function processIdea() {
-            const input = document.getElementById('userInput').value.trim();
-            if (!input) {
-                alert('يرجى كتابة فكرة أولاً قبل البدء بتفكيكها.');
+            const apiKey = localStorage.getItem('gemini_api_key') || document.getElementById('apiKeyInput').value.trim();
+            if (!apiKey) {
+                alert('يرجى النقر على إعدادات مفتاح الذكاء الاصطناعي بالأعلى وإدخال مفتاح الـ API أولاً.');
+                document.getElementById('apiBox').style.display = 'block';
                 return;
             }
+
+            const input = document.getElementById('userInput').value.trim();
+            if (!input) {
+                alert('يرجى كتابة فكرة أو مشكلة أولاً قبل البدء بتفكيكها.');
+                return;
+            }
+
+            // جمع التاغات المحددة
+            const activeTags = Array.from(document.querySelectorAll('.tag.active')).map(t => t.innerText).join(', ');
+            const promptText = activeTags ? `نمط التفكير المحدد: ${activeTags}\nالمشكلة أو الفكرة: ${input}` : `المشكلة أو الفكرة: ${input}`;
 
             const btnText = document.getElementById('btnText');
             const btnSpinner = document.getElementById('btnSpinner');
@@ -258,24 +324,46 @@
             const counter = document.getElementById('ideaCount');
 
             btnSpinner.style.display = 'inline-block';
-            btnText.innerText = 'جاري تفكيك الفكرة وإعادة صياغتها...';
+            btnText.innerText = 'جاري التحليل وتفكيك الشفرة...';
+            resultBox.style.display = 'none';
 
-            // محاكاة استجابة ذكية مطابقة لتعليمات النظام (system_prompt)
-            setTimeout(() => {
+            try {
+                // استدعاء Gemini API مباشرة من المتصفح
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `أنت مساعد متخصص في التفكيك المعرفي وإعادة صياغة الأفكار بناءً على نظام "شفرة". قم بتحليل النص التالي وتقديم رؤية واعية وبديلة:\n\n${promptText}`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    const reply = data.candidates[0].content.parts[0].text;
+                    resultText.innerText = reply;
+                    resultBox.style.display = 'block';
+                    count++;
+                    counter.innerText = count;
+                } else {
+                    alert('حدث خطأ في الاستجابة، تأكد من صحة مفتاح الـ API.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('تعذر الاتصال بالخدمة، تحقق من اتصالك بالإنترنت أو مفتاح الـ API.');
+            } finally {
                 btnSpinner.style.display = 'none';
                 btnText.innerText = 'إعادة التشكيل والإصلاح';
-                
-                // صياغة تحليل عقلاني يعتمد على تفكيك التشوه الإدراكي
-                resultText.innerHTML = `<strong>التحليل:</strong> تم رصد الفكرة وتفكيك التشوه المرتبط بها.<br><br>` +
-                                       `<strong>الرؤية البديلة الواقعية:</strong> الموقف الذي مررت به لا يمثل حقيقة مطلقة، بل هو تفسير ذهني قابل لإعادة الصياغة. بدلاً من الاستغراق في هذا الاعتقاد، جرب النظر إليه كفرصة للتعلم والتطوير الذاتي بهدوء ووضوح.`;
-                
-                resultBox.style.display = 'block';
-                count++;
-                counter.innerText = count;
-            }, 1200);
+            }
         }
     </script>
 
 </body>
-        </html>
-        
+    </html>
+    
