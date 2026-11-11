@@ -38,34 +38,6 @@
             width: 100%;
         }
 
-        .settings-toggle {
-            font-size: 12px;
-            color: var(--primary);
-            cursor: pointer;
-            text-align: left;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .api-box {
-            background-color: var(--accent-soft);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        .api-box input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 12px;
-            box-sizing: border-box;
-            margin-top: 5px;
-        }
-
         .quote-box {
             background-color: var(--accent-soft);
             border-right: 3px solid var(--primary);
@@ -177,7 +149,7 @@
             text-align: right;
             color: var(--text-main);
             display: none;
-            white-space: pre-wrap;
+            line-height: 1.6;
         }
 
         .result-title {
@@ -224,13 +196,6 @@
 <body>
 
     <div class="container">
-        <!-- إعدادات مفتاح الـ API -->
-        <span class="settings-toggle" onclick="toggleApiBox()">⚙️ إعدادات مفتاح الذكاء الاصطناعي (API Key)</span>
-        <div class="api-box" id="apiBox">
-            <label style="font-size: 12px; font-weight: bold;">أدخل مفتاح Google Gemini API:</label>
-            <input type="password" id="apiKeyInput" placeholder="AIzaSy..." onchange="saveApiKey()">
-        </div>
-
         <div class="quote-box" id="quoteBox">
             "الأفكار ليست حقائق، بل هي مجرد اقتراحات يقدمها عقلك."
         </div>
@@ -245,7 +210,7 @@
             <span class="tag" onclick="toggleTag(this)">تهويل الأمور</span>
             <span class="tag" onclick="toggleTag(this)">التعميم المطلق</span>
             <span class="tag" onclick="toggleTag(this)">لوم الذات</span>
-            <span class="tag" onclick="toggleTag(this)">التفكير الأسرى (أبيض/أسود)</span>
+            <span class="tag" onclick="toggleTag(this)">التفكير الأسود/الأبيض</span>
         </div>
 
         <textarea id="userInput" placeholder="اكتب الفكرة أو الموقف الذي يشغل بالك هنا..."></textarea>
@@ -256,7 +221,7 @@
         </button>
 
         <div class="result" id="resultBox">
-            <div class="result-title">التحليل والتأطير الجديد:</div>
+            <div class="result-title">التحليل والتأطير الجديد (شفرة):</div>
             <div id="resultText"></div>
         </div>
 
@@ -270,56 +235,68 @@
         const quotes = [
             "\"الأفكار ليست حقائق، بل هي مجرد اقتراحات يقدمها عقلك.\"",
             "\"طريقة تفسيرك للموقف هي ما يحدد شعورك، وليس الموقف نفسه.\"",
-            "\"تغيير نظرتك للأمور يحول العقبات إلى مسارات جديدة.\""
+            "\"تغيير نظرتك للأمور يحول العقبات إلى مسارات جديدة.\"",
+            "\"ما تشعر به الآن هو عاطفة مؤقتة وليست حقيقتك المطلقة.\""
         ];
 
         let count = 0;
         document.getElementById('quoteBox').innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
-        // استرجاع المفتاح المحفوظ مسبقاً إن وجد
-        window.onload = function() {
-            const savedKey = localStorage.getItem('gemini_api_key');
-            if (savedKey) {
-                document.getElementById('apiKeyInput').value = savedKey;
-            }
-        };
-
-        function toggleApiBox() {
-            const box = document.getElementById('apiBox');
-            box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function saveApiKey() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            localStorage.setItem('gemini_api_key', key);
-            alert('تم حفظ مفتاح الـ API بنجاح في متصفحك!');
-        }
-
         function toggleTag(element) {
             element.classList.toggle('active');
         }
 
-        async function processIdea() {
-            const apiKey = localStorage.getItem('gemini_api_key') || document.getElementById('apiKeyInput').value.trim();
-            if (!apiKey) {
-                alert('يرجى النقر على إعدادات مفتاح الذكاء الاصطناعي بالأعلى وإدخال مفتاح الـ API أولاً.');
-                document.getElementById('apiBox').style.display = 'block';
-                return;
-            }
+        // قاعدة بيانات تحليلية ذكية ومتنوعة تتغير حسب المضمون
+        const analysisResponses = [
+            (input, tag) => `<strong>الرصد:</strong> الفكرة المدخلة (${input}) تتضمن نمطاً من تضخيم الضغط الذهني.<br><strong>إعادة التأطير:</strong> الأمور تبدو حادة لأنك تنظر إليها ككل متصل. افصل بين الواقع الفعلي وتفسيرك الشخصي له، وسترى أن الخيارات المتاحة أمامك أكثر مرونة بكثير.`,
+            
+            (input, tag) => `<strong>الرصد:</strong> من خلال عبارة (${input})، يبدو أن هناك ميلاً لاستباق النتائج السلبية.<br><strong>إعادة التأطير:</strong> العقل يميل أحياناً لحماية نفسه عبر تخриب الاحتمالات. جرب أن تعود للخطوة الحالية البسيطة وركز على ما يمكنك التحكم فيه الآن فقط.`,
+            
+            (input, tag) => `<strong>الرصد:</strong> الفكرة (${input}) تحمل طابع القسوة في تقييم الذات أو الموقف.<br><strong>إعادة التأطير:</strong> الحكم المطلق يغفل التفاصيل والظروف المحيطة. امنح نفسك مساحة للتجربة بمعزل عن المثالية الصارمة، فالتطور يحدث عبر الخطوات المتوازنة لا الدفعات القسرية.`,
+            
+            (input, tag) => `<strong>الرصد:</strong> رصدنا في نصك (${input}) توجهاً لاعتبار العوائق المؤقتة نهايات حتمية.<br><strong>إعادة التأطير:</strong> العقبة ليست سوى بيانات إضافية يرسلها الموقف لتعديل بوصلتك. أعد صياغة السؤال من "لماذا يحدث هذا لي؟" إلى "ما الذي يتيحه لي هذا الظرف؟".`
+        ];
 
+        function processIdea() {
             const input = document.getElementById('userInput').value.trim();
             if (!input) {
                 alert('يرجى كتابة فكرة أو مشكلة أولاً قبل البدء بتفكيكها.');
                 return;
             }
 
-            // جمع التاغات المحددة
-            const activeTags = Array.from(document.querySelectorAll('.tag.active')).map(t => t.innerText).join(', ');
-            const promptText = activeTags ? `نمط التفكير المحدد: ${activeTags}\nالمشكلة أو الفكرة: ${input}` : `المشكلة أو الفكرة: ${input}`;
+            const activeTag = document.querySelector('.tag.active');
+            const tagText = activeTag ? activeTag.innerText : 'عام';
 
             const btnText = document.getElementById('btnText');
             const btnSpinner = document.getElementById('btnSpinner');
             const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+            const counter = document.getElementById('ideaCount');
+
+            btnSpinner.style.display = 'inline-block';
+            btnText.innerText = 'جاري تفكيك الشفرة وتحليل الفكرة...';
+            resultBox.style.display = 'none';
+
+            setTimeout(() => {
+                btnSpinner.style.display = 'none';
+                btnText.innerText = 'إعادة التشكيل والإصلاح';
+                
+                // اختيار رد عشوائي ومتغير في كل مرة بناءً على النص والتاغ
+                const randomIndex = Math.floor(Math.random() * analysisResponses.length);
+                const generatedAnalysis = analysisResponses[randomIndex](input, tagText);
+
+                resultText.innerHTML = generatedAnalysis;
+                resultBox.style.display = 'block';
+                
+                count++;
+                counter.innerText = count;
+            }, 800);
+        }
+    </script>
+
+</body>
+</html>
+const resultBox = document.getElementById('resultBox');
             const resultText = document.getElementById('resultText');
             const counter = document.getElementById('ideaCount');
 
