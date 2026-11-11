@@ -36,10 +36,8 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
             max-width: 520px;
             width: 100%;
-            transition: all 0.3s ease;
         }
 
-        /* اقتباس حيوي ترحيبي */
         .quote-box {
             background-color: var(--accent-soft);
             border-right: 3px solid var(--primary);
@@ -60,7 +58,6 @@
             color: var(--primary);
             font-size: 26px;
             margin: 0 0 6px 0;
-            letter-spacing: -0.5px;
         }
 
         .subtitle {
@@ -69,7 +66,6 @@
             margin: 0;
         }
 
-        /* أوسمة تصنيف التشوه الإدراكي */
         .tags-label {
             font-size: 13px;
             font-weight: 600;
@@ -117,14 +113,12 @@
             background-color: var(--accent-soft);
             color: var(--text-main);
             outline: none;
-            transition: border-color 0.2s ease;
         }
 
         textarea:focus {
             border-color: var(--primary);
         }
 
-        /* الزر التفاعلي */
         button {
             background-color: var(--primary);
             color: #ffffff;
@@ -135,7 +129,7 @@
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.25s ease, transform 0.1s ease;
+            transition: background-color 0.25s ease;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -146,11 +140,6 @@
             background-color: var(--primary-hover);
         }
 
-        button:active {
-            transform: scale(0.99);
-        }
-
-        /* بطاقة النتيجة والعداد */
         .result {
             margin-top: 24px;
             padding: 18px;
@@ -160,7 +149,6 @@
             text-align: right;
             color: var(--text-main);
             display: none;
-            animation: fadeIn 0.4s ease;
         }
 
         .result-title {
@@ -189,11 +177,6 @@
             font-weight: bold;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .spinner {
             width: 16px;
             height: 16px;
@@ -212,7 +195,6 @@
 <body>
 
     <div class="container">
-        <!-- حكمة عشوائية لتجديد الطاقة -->
         <div class="quote-box" id="quoteBox">
             "الأفكار ليست حقائق، بل هي مجرد اقتراحات يقدمها عقلك."
         </div>
@@ -222,7 +204,6 @@
             <p class="subtitle">إعادة صياغة الأفكار وتفكيك التشوهات الإدراكية</p>
         </header>
         
-        <!-- أوسمة اختيار نوع التشوه الإدراكي -->
         <span class="tags-label">اختر نمط التفكير (اختياري):</span>
         <div class="tags-container">
             <span class="tag" onclick="toggleTag(this)">تهويل الأمور</span>
@@ -238,13 +219,11 @@
             <span id="btnText">إعادة التشكيل والإصلاح</span>
         </button>
 
-        <!-- بطاقة النتيجة التفاعلية -->
         <div class="result" id="resultBox">
-            <div class="result-title">التحليل والتأطير الجديد:</div>
+            <div class="result-title">التحليل والتأطير الجديد (حسب شفرة):</div>
             <p id="resultText" style="margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-main);"></p>
         </div>
 
-        <!-- عداد الأفكار المعاد صياغتها -->
         <div class="stats-counter">
             <span>الأفكار المُعاد تشكيلها اليوم:</span>
             <span class="counter-badge" id="ideaCount">0</span>
@@ -252,5 +231,51 @@
     </div>
 
     <script>
-        // إحصائيات وحكم
-            
+        const quotes = [
+            "\"الأفكار ليست حقائق، بل هي مجرد اقتراحات يقدمها عقلك.\"",
+            "\"طريقة تفسيرك للموقف هي ما يحدد شعورك، وليس الموقف نفسه.\"",
+            "\"تغيير نظرتك للأمور يحول العقبات إلى مسارات جديدة.\""
+        ];
+
+        let count = 0;
+        document.getElementById('quoteBox').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+        function toggleTag(element) {
+            element.classList.toggle('active');
+        }
+
+        async function processIdea() {
+            const input = document.getElementById('userInput').value.trim();
+            if (!input) {
+                alert('يرجى كتابة فكرة أولاً قبل البدء بتفكيكها.');
+                return;
+            }
+
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+            const counter = document.getElementById('ideaCount');
+
+            btnSpinner.style.display = 'inline-block';
+            btnText.innerText = 'جاري تفكيك الفكرة وإعادة صياغتها...';
+
+            // محاكاة استجابة ذكية مطابقة لتعليمات النظام (system_prompt)
+            setTimeout(() => {
+                btnSpinner.style.display = 'none';
+                btnText.innerText = 'إعادة التشكيل والإصلاح';
+                
+                // صياغة تحليل عقلاني يعتمد على تفكيك التشوه الإدراكي
+                resultText.innerHTML = `<strong>التحليل:</strong> تم رصد الفكرة وتفكيك التشوه المرتبط بها.<br><br>` +
+                                       `<strong>الرؤية البديلة الواقعية:</strong> الموقف الذي مررت به لا يمثل حقيقة مطلقة، بل هو تفسير ذهني قابل لإعادة الصياغة. بدلاً من الاستغراق في هذا الاعتقاد، جرب النظر إليه كفرصة للتعلم والتطوير الذاتي بهدوء ووضوح.`;
+                
+                resultBox.style.display = 'block';
+                count++;
+                counter.innerText = count;
+            }, 1200);
+        }
+    </script>
+
+</body>
+        </html>
+        
