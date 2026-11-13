@@ -110,39 +110,6 @@
             50% { opacity: 0; }
         }
 
-        .tags-label {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: block;
-            color: var(--text-main);
-        }
-
-        .tags-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .tag {
-            background-color: var(--accent-soft);
-            border: 1px solid var(--border);
-            color: var(--text-sub);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
-
-        .tag.active, .tag:hover {
-            background-color: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
-        }
-
         textarea {
             width: 100%;
             height: 120px;
@@ -196,35 +163,7 @@
             display: none;
             line-height: 1.8;
             box-sizing: border-box;
-        }
-
-        .result-section {
-            margin-bottom: 14px;
-        }
-
-        .result-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .result-title {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 4px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .quran-verse {
-            font-style: italic;
-            color: #3b6e5d;
-            background-color: #e9e5d4;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin: 6px 0;
-            display: block;
-            font-weight: 500;
+            white-space: pre-line;
         }
 
         .footer-note {
@@ -280,14 +219,6 @@
                 <span class="cursor"></span>
             </div>
         </header>
-        
-        <span class="tags-label">اختر طبيعة الشعور أو الفكرة:</span>
-        <div class="tags-container">
-            <span class="tag" onclick="toggleTag(this)">قلق المستقبل</span>
-            <span class="tag" onclick="toggleTag(this)">سوء تفاهم أو ظن</span>
-            <span class="tag" onclick="toggleTag(this)">عجز وضغط نفسي</span>
-            <span class="tag" onclick="toggleTag(this)">شعور باليأس والتهويل</span>
-        </div>
 
         <textarea id="userInput" placeholder="اكتب الفكرة، الموقف، أو الشعور الذي يشغل بالك هنا بكلمات بسيطة..."></textarea>
         
@@ -296,22 +227,7 @@
             <span id="btnText">ترتيب الفكرة وإيجاد الحل العملي</span>
         </button>
 
-        <div class="result" id="resultBox">
-            <div class="result-section">
-                <div class="result-title">1. البوصلة القرآنية:</div>
-                <div id="quranRoot"></div>
-            </div>
-            
-            <div class="result-section">
-                <div class="result-title">2. نظرة هادئة للأمر:</div>
-                <div id="reframingText"></div>
-            </div>
-
-            <div class="result-section">
-                <div class="result-title">3. خطوتك العملية القادمة:</div>
-                <div id="practicalSolution"></div>
-            </div>
-        </div>
+        <div class="result" id="resultBox"></div>
 
         <div class="footer-note">
             <span>تطبيق <span class="brand-name">شفرة 🌿</span></span>
@@ -351,50 +267,61 @@
             setTimeout(typeWriter, 400);
         };
 
-        function toggleTag(element) {
-            element.classList.toggle('active');
-        }
-
-        function processIdea() {
+        async function processIdea() {
             const input = document.getElementById('userInput').value.trim();
             if (!input) {
                 alert('يرجى كتابة الفكرة أو الشعور أولاً.');
                 return;
             }
 
-            const activeTag = document.querySelector('.tag.active');
-            const tagText = activeTag ? activeTag.innerText : 'الوعي العام';
-
             const btnText = document.getElementById('btnText');
             const btnSpinner = document.getElementById('btnSpinner');
             const resultBox = document.getElementById('resultBox');
-            
-            const quranRoot = document.getElementById('quranRoot');
-            const reframingText = document.getElementById('reframingText');
-            const practicalSolution = document.getElementById('practicalSolution');
             const counter = document.getElementById('ideaCount');
 
             btnSpinner.style.display = 'inline-block';
-            btnText.innerText = 'جاري ترتيب الأفكار...';
+            btnText.innerText = 'جاري التفكير وتحليل الفكرة...';
             resultBox.style.display = 'none';
 
-            setTimeout(() => {
-                btnSpinner.style.display = 'none';
-                btnText.innerText = 'ترتيب الفكرة وإيجاد الحل العملي';
-                
-                quranRoot.innerHTML = `حين نشعر بـ (${tagText}) تجاه ما كتبته ("${input}")، يذكرنا القرآن الكريم أن الأمور كلها بيد الله وحده، وأن القلق لا يغير شيئاً من الواقع بل يزيد التعب، كما قال تعالى: <span class="quran-verse">"ما أصاب من مصيبة إلا بإذن الله ومن يؤمن بالله يهدي قلبه"</span>.`;
+            // استبدل YOUR_API_KEY بمفتاح الـ API الفعلي الخاص بك هنا
+            const apiKey = "AQ.Ab8RN6LYw9ieC6WWihdYOrKviZkToz4fNOnRkT1WjwSFv-aixA"; 
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-                reframingText.innerHTML = `غالباً ما نعطي الأمور أكبرz من حجمها الحقيقي أو نتخيل الأسوأ قبل أن يحدث. الواقع أبسط بكثير، والمشكلة التي تقلقك اليوم هي مجرد مرحلة مؤقتة وستبدو أصغر بكثير حين تنظر إليها لاحقاً.`;
+            const systemInstruction = "أنت مساعد فكري ومعرفي مستوحى من الفكر النقدي وبصائر الدكتور نايف بن نهار. مهمتك هي: تفكيك الأفكار والأسئلة التي يطرحها المستخدم، كشف الخلفيات والتناقضات المعرفية إن وجدت، تقديم تحليل عقلي رصين وعميق، وصياغة حل عملي مبسط ومفهوم لكل الناس دون تعقيد. اجعل الإجابة مرتبة ومنسقة في نقاط واضحة.";
 
-                practicalSolution.innerHTML = `<strong>الخطوة البسيطة:</strong> ركز فقط على ما يمكنك فعله اليوم، واترك ما لا تملك السيطرة عليه. خذ نفساً عميقاً، وردد بقلب هادئ: <span class="quran-verse">"حسبي الله ونعم الوكيل"</span>، وابدأ بأبسط خطوة عملية تناسب قدرتك الآن.`;
+            const data = {
+                contents: [
+                    {
+                        parts: [
+                            { text: systemInstruction + "\n\nفكرة المستخدم أو شعوره هو: " + input }
+                        ]
+                    }
+                ]
+            };
 
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const resData = await response.json();
+                const reply = resData.candidates[0].content.parts[0].text;
+
+                resultBox.innerText = reply;
                 resultBox.style.display = 'block';
                 count++;
                 counter.innerText = count;
-            }, 1000);
+            } catch (error) {
+                resultBox.innerText = "حدث خطأ أثناء الاتصال أو المفتاح غير مدخل بشكل صحيح. يرجى التأكد من مفتاح الـ API.";
+                resultBox.style.display = 'block';
+            } finally {
+                btnSpinner.style.display = 'none';
+                btnText.innerText = 'ترتيب الفكرة وإيجاد الحل العملي';
+            }
         }
     </script>
 
 </body>
-        </html>
-        
+</html>
