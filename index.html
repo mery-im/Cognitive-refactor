@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>شفرة - الوعي والتوجيه</title>
     <style>
         :root {
@@ -17,49 +17,57 @@
             --accent-soft: #f2efe4;
         }
 
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            overflow: hidden;
         }
 
         .container {
-            background-color: var(--card-bg);
             width: 100%;
-            height: 100vh;
-            max-width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: none;
-            box-shadow: none;
-            border-radius: 0;
+            padding: 16px;
+            background-color: var(--card-bg);
         }
 
         @media (min-width: 768px) {
+            body {
+                background-color: var(--bg-color);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
             .container {
-                max-width: 750px;
-                height: 90vh;
+                max-width: 700px;
+                height: 94vh;
                 max-height: 850px;
                 border-radius: 20px;
                 box-shadow: 0 10px 35px rgba(45, 90, 76, 0.08);
                 border: 1px solid var(--border);
-                padding: 30px 40px;
+                padding: 30px;
+                background-color: var(--card-bg);
             }
         }
 
-        .top-section {
+        .scrollable-area {
+            flex: 1;
             overflow-y: auto;
-            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             padding-bottom: 10px;
         }
 
@@ -67,38 +75,38 @@
             background-color: var(--accent-soft);
             border-right: 3px solid var(--primary);
             padding: 10px 14px;
-            border-radius: 6px;
-            margin-bottom: 16px;
+            border-radius: 8px;
             font-size: 13px;
             color: var(--text-sub);
-            line-height: 1.6;
+            line-height: 1.5;
+            flex-shrink: 0;
         }
 
         header {
             text-align: center;
-            margin-bottom: 16px;
+            flex-shrink: 0;
         }
 
         h1 {
             color: var(--primary);
             font-size: 26px;
-            margin: 0 0 2px 0;
             font-weight: 700;
+            margin-bottom: 2px;
         }
 
         .subtitle {
             color: var(--accent-green);
             font-size: 12px;
             font-weight: 600;
-            margin: 0 0 8px 0;
+            margin-bottom: 6px;
         }
 
         .app-description {
             font-size: 12px;
             color: var(--text-sub);
-            line-height: 1.6;
+            line-height: 1.5;
             background-color: var(--accent-soft);
-            padding: 10px 14px;
+            padding: 10px 12px;
             border-radius: 8px;
             border: 1px solid var(--border);
             text-align: justify;
@@ -107,49 +115,64 @@
         .api-settings {
             display: flex;
             gap: 8px;
-            margin-bottom: 14px;
             background: var(--accent-soft);
-            padding: 8px 12px;
+            padding: 8px 10px;
             border-radius: 8px;
             border: 1px solid var(--border);
             align-items: center;
-            font-size: 12px;
+            flex-shrink: 0;
         }
 
         .api-settings input {
-            flex-grow: 1;
-            padding: 6px 10px;
+            flex: 1;
+            min-width: 0;
+            padding: 8px 10px;
             border: 1px solid var(--border);
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 13px;
             outline: none;
-            background: #fff;
+            background: #ffffff;
         }
 
         .api-settings button {
-            width: auto;
-            padding: 6px 12px;
-            font-size: 12px;
+            flex-shrink: 0;
+            padding: 8px 14px;
+            font-size: 13px;
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-shrink: 0;
+            background: var(--card-bg);
+            padding-top: 5px;
         }
 
         textarea {
             width: 100%;
-            height: 90px;
+            height: 85px;
             padding: 12px;
             border: 1px solid var(--border);
             border-radius: 10px;
             font-family: inherit;
             font-size: 14px;
             resize: none;
-            box-sizing: border-box;
-            margin-bottom: 12px;
             background-color: var(--accent-soft);
             color: var(--text-main);
             outline: none;
+            line-height: 1.5;
         }
 
         textarea:focus {
             border-color: var(--primary);
+            background-color: #ffffff;
         }
 
         button.action-btn {
@@ -162,12 +185,10 @@
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.25s ease;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 8px;
-            box-sizing: border-box;
         }
 
         button.action-btn:hover {
@@ -175,7 +196,6 @@
         }
 
         .result {
-            margin-top: 14px;
             padding: 14px;
             background-color: var(--accent-soft);
             border: 1px solid var(--border);
@@ -183,17 +203,14 @@
             text-align: right;
             color: var(--text-main);
             display: none;
-            line-height: 1.8;
-            box-sizing: border-box;
+            line-height: 1.7;
             white-space: pre-line;
-            max-height: 180px;
-            overflow-y: auto;
             font-size: 13px;
+            margin-top: 8px;
         }
 
         .footer-note {
-            margin-top: 10px;
-            padding-top: 12px;
+            padding-top: 10px;
             border-top: 1px dashed var(--border);
             display: flex;
             justify-content: space-between;
@@ -208,11 +225,21 @@
             font-weight: bold;
         }
 
+        .key-toggle {
+            background: none;
+            border: none;
+            color: var(--accent-green);
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: underline;
+            font-family: inherit;
+        }
+
         .counter-badge {
             background-color: var(--primary);
             color: #ffffff;
             padding: 2px 8px;
-            border-radius: 12px;
+            border-radius: 10px;
             font-weight: bold;
         }
 
@@ -234,7 +261,8 @@
 <body>
 
     <div class="container">
-        <div class="top-section">
+        <!-- الجزء القابل للتمرير (الأعلى) -->
+        <div class="scrollable-area" id="scrollArea">
             <div class="quote-box" id="quoteBox">
                 "وإن يمسسك الله بضر فلا كاشف له إلا هو"
             </div>
@@ -242,17 +270,143 @@
             <header>
                 <h1>شفرة</h1>
                 <p class="subtitle">تفكيك الأفكار وترتيب الوجهة</p>
-                <div class="app-description" id="typedDescription">مساحة آمنة ومبسطة لمساعدة عقلك على ترتيب أفكاره وفهم مشاعره بعمق وهدوء.</div>
+                <div class="app-description">
+                    مساحة آمنة ومبسطة لمساعدة عقلك على ترتيب أفكاره، فهم مشاعره بعمق وهدوء، وتحويل الضغوط إلى خطوات عملية واضحة.
+                </div>
             </header>
 
-            <!-- إعدادات المفتاح السرية والآمنة محلياً -->
+            <!-- شريط المفتاح (يختفي بعد الحفظ) -->
             <div class="api-settings" id="apiSettingsBar">
-                <span id="apiKeyLabel">مفتاح API:</span>
-                <input type="password" id="apiKeyInput" placeholder="أدخل مفتاح Google AI Studio هنا...">
-                <button class="action-btn" onclick="saveApiKey()">حفظ</button>
+                <input type="password" id="apiKeyInput" placeholder="مفتاح Google AI Studio...">
+                <button onclick="saveApiKey()">حفظ</button>
             </div>
 
-            <textarea id="userInput" placeholder="اكتب الفكرة، الموقف، أو الشعور الذي يشغل بالك هنا بكلمات بسيطة..."></textarea>
+            <div class="result" id="resultBox"></div>
+        </div>
+
+        <!-- الجزء الثابت في الأسفل (صندوق الكتابة وزر الإرسال) -->
+        <div class="input-section">
+            <textarea id="userInput" placeholder="اكتب الفكرة، الموقف، أو الشعور الذي يشغل بالك..."></textarea>
             
-            <button class="action-btn" id
+            <button class="action-btn" id="submitBtn" onclick="processIdea()">
+                <span class="spinner" id="btnSpinner"></span>
+                <span id="btnText">ترتيب الفكرة وإيجاد الحل العملي</span>
+            </button>
+        </div>
+
+        <!-- الفوتر -->
+        <div class="footer-note">
+            <span><span class="brand-name">شفرة 🌿</span> | <button class="key-toggle" onclick="toggleKeyBar()">المفتاح 🔑</button></span>
+            <div>المعالجة: <span class="counter-badge" id="ideaCount">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        const quotes = [
+            "\"وإن يمسسك الله بضر فلا كاشف له إلا هو\"",
+            "\"ما أصاب من مصيبة إلا بإذن الله ومن يؤمن بالله يهدي قلبه\"",
+            "\"إن مع العسر يسرا\"",
+            "\"ألا بذكر الله تطمئن القلوب\""
+        ];
+
+        let count = 0;
+        document.getElementById('quoteBox').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+        window.onload = function() {
+            const savedKey = localStorage.getItem('gemini_api_key');
+            if (savedKey) {
+                document.getElementById('apiKeyInput').value = savedKey;
+                document.getElementById('apiSettingsBar').style.display = 'none';
+            }
+        };
+
+        function toggleKeyBar() {
+            const bar = document.getElementById('apiSettingsBar');
+            bar.style.display = (bar.style.display === 'none') ? 'flex' : 'none';
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (key) {
+                localStorage.setItem('gemini_api_key', key);
+                document.getElementById('apiSettingsBar').style.display = 'none';
+                alert('تم حفظ المفتاح بنجاح!');
+            } else {
+                alert('يرجى لصق المفتاح أولاً.');
+            }
+        }
+
+        async function processIdea() {
+            let apiKey = localStorage.getItem('gemini_api_key') || document.getElementById('apiKeyInput').value.trim();
+            
+            if (!apiKey) {
+                alert('يرجى إدخال مفتاح الـ API وحفظه أولاً.');
+                document.getElementById('apiSettingsBar').style.display = 'flex';
+                return;
+            }
+
+            const input = document.getElementById('userInput').value.trim();
+            if (!input) {
+                alert('يرجى كتابة الفكرة أو الشعور أولاً.');
+                return;
+            }
+
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const resultBox = document.getElementById('resultBox');
+            const counter = document.getElementById('ideaCount');
+
+            btnSpinner.style.display = 'inline-block';
+            btnText.innerText = 'جاري التفكير وتحليل الفكرة...';
+            resultBox.style.display = 'none';
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            const systemInstruction = "أنت مساعد فكري ومعرفي مستوحى من الفكر النقدي وبصائر الدكتور نايف بن نهار. مهمتك هي: تفكيك الأفكار والأسئلة التي يطرحها المستخدم، كشف الخلفيات والتناقضات المعرفية إن وجدت، تقديم تحليل عقلي رصين وعميق، وصياغة حل عملي مبسط ومفهوم لكل الناس دون تعقيد. اجعل الإجابة مرتبة ومنسقة في نقاط واضحة.";
+
+            const data = {
+                contents: [
+                    {
+                        parts: [
+                            { text: systemInstruction + "\n\nفكرة المستخدم أو شعوره هو: " + input }
+                        ]
+                    }
+                ]
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const resData = await response.json();
+                
+                if (resData.error) {
+                    throw new Error(resData.error.message);
+                }
+
+                const reply = resData.candidates[0].content.parts[0].text;
+
+                resultBox.innerText = reply;
+                resultBox.style.display = 'block';
+                count++;
+                counter.innerText = count;
+                
+                // التمرير لرؤية النتيجة بوضوح
+                const scrollArea = document.getElementById('scrollArea');
+                scrollArea.scrollTop = scrollArea.scrollHeight;
+            } catch (error) {
+                resultBox.innerText = "حدث خطأ في الاتصال أو أن مفتاح الـ API غير صحيح. يرجى التأكد من المفتاح.";
+                resultBox.style.display = 'block';
+                document.getElementById('apiSettingsBar').style.display = 'flex';
+            } finally {
+                btnSpinner.style.display = 'none';
+                btnText.innerText = 'ترتيب الفكرة وإيجاد الحل العملي';
+            }
+        }
+    </script>
+
+</body>
+                    </html>
     
