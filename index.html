@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شفرة - الوعي القرآني</title>
+    <title>شفرة - الوعي والتوجيه</title>
     <style>
         :root {
-            --bg-color: #f5f2eb;
+            --bg-color: #f7f5ef;
             --card-bg: #ffffff;
-            --primary: #1b4d3e;
-            --primary-hover: #14382d;
-            --text-main: #000000;
-            --text-sub: #444444;
-            --border: #e2ddd5;
-            --accent-soft: #faf9f6;
+            --primary: #2d5a4c;
+            --primary-hover: #224438;
+            --accent-green: #4a7c59;
+            --text-main: #2c3531;
+            --text-sub: #555e58;
+            --border: #e3dec9;
+            --accent-soft: #f2efe4;
         }
 
         body {
@@ -21,7 +22,7 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 16px;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -31,26 +32,43 @@
 
         .container {
             background-color: var(--card-bg);
-            padding: 24px 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
             width: 100%;
-            max-width: 600px;
+            height: 100vh;
+            max-width: 100%;
+            padding: 20px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
         }
 
         @media (min-width: 768px) {
             .container {
-                padding: 40px 36px;
+                max-width: 750px;
+                height: 90vh;
+                max-height: 850px;
+                border-radius: 20px;
+                box-shadow: 0 10px 35px rgba(45, 90, 76, 0.08);
+                border: 1px solid var(--border);
+                padding: 30px 40px;
             }
+        }
+
+        .top-section {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-bottom: 10px;
         }
 
         .quote-box {
             background-color: var(--accent-soft);
             border-right: 3px solid var(--primary);
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             font-size: 13px;
             color: var(--text-sub);
             line-height: 1.6;
@@ -58,100 +76,73 @@
 
         header {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
 
         h1 {
             color: var(--primary);
             font-size: 26px;
-            margin: 0 0 6px 0;
-        }
-
-        @media (min-width: 768px) {
-            h1 {
-                font-size: 30px;
-            }
+            margin: 0 0 2px 0;
+            font-weight: 700;
         }
 
         .subtitle {
-            color: var(--primary);
-            font-size: 13px;
+            color: var(--accent-green);
+            font-size: 12px;
             font-weight: 600;
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0;
         }
 
         .app-description {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-sub);
-            line-height: 1.7;
+            line-height: 1.6;
             background-color: var(--accent-soft);
-            padding: 12px 16px;
-            border-radius: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
             border: 1px solid var(--border);
-            margin-top: 10px;
             text-align: justify;
         }
 
-        /* مؤشر الكتابة الوامض */
-        .cursor {
-            display: inline-block;
-            width: 2px;
-            height: 14px;
-            background-color: var(--primary);
-            margin-right: 3px;
-            vertical-align: middle;
-            animation: blink 0.8s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .tags-label {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: block;
-            color: var(--text-main);
-        }
-
-        .tags-container {
+        .api-settings {
             display: flex;
-            flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .tag {
-            background-color: var(--accent-soft);
+            margin-bottom: 14px;
+            background: var(--accent-soft);
+            padding: 8px 12px;
+            border-radius: 8px;
             border: 1px solid var(--border);
-            color: var(--text-sub);
-            padding: 6px 14px;
-            border-radius: 20px;
+            align-items: center;
             font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
         }
 
-        .tag.active, .tag:hover {
-            background-color: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
+        .api-settings input {
+            flex-grow: 1;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+            background: #fff;
+        }
+
+        .api-settings button {
+            width: auto;
+            padding: 6px 12px;
+            font-size: 12px;
         }
 
         textarea {
             width: 100%;
-            height: 120px;
-            padding: 14px;
+            height: 90px;
+            padding: 12px;
             border: 1px solid var(--border);
             border-radius: 10px;
             font-family: inherit;
             font-size: 14px;
-            resize: vertical;
+            resize: none;
             box-sizing: border-box;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             background-color: var(--accent-soft);
             color: var(--text-main);
             outline: none;
@@ -161,13 +152,13 @@
             border-color: var(--primary);
         }
 
-        button {
+        button.action-btn {
             background-color: var(--primary);
             color: #ffffff;
             border: none;
-            padding: 14px 20px;
+            padding: 12px 20px;
             border-radius: 10px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
@@ -179,13 +170,13 @@
             box-sizing: border-box;
         }
 
-        button:hover {
+        button.action-btn:hover {
             background-color: var(--primary-hover);
         }
 
         .result {
-            margin-top: 24px;
-            padding: 18px;
+            margin-top: 14px;
+            padding: 14px;
             background-color: var(--accent-soft);
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -194,46 +185,27 @@
             display: none;
             line-height: 1.8;
             box-sizing: border-box;
+            white-space: pre-line;
+            max-height: 180px;
+            overflow-y: auto;
+            font-size: 13px;
         }
 
-        .result-section {
-            margin-bottom: 14px;
-        }
-
-        .result-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .result-title {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 4px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .quran-verse {
-            font-style: italic;
-            color: #2c5e4b;
-            background-color: #f0ebe1;
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin: 6px 0;
-            display: block;
-            font-weight: 500;
-        }
-
-        .stats-counter {
-            margin-top: 24px;
-            padding-top: 16px;
+        .footer-note {
+            margin-top: 10px;
+            padding-top: 12px;
             border-top: 1px dashed var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-sub);
+            flex-shrink: 0;
+        }
+
+        .brand-name {
+            color: var(--primary);
+            font-weight: bold;
         }
 
         .counter-badge {
@@ -245,8 +217,8 @@
         }
 
         .spinner {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: #fff;
@@ -262,53 +234,37 @@
 <body>
 
     <div class="container">
-        <div class="quote-box" id="quoteBox">
-            "وإن يمسسك الله بضر فلا كاشف له إلا هو"
-        </div>
-
-        <header>
-            <h1>شفرة</h1>
-            <p class="subtitle">تفكيك الأفكار وتأسيس الوعي القرآني</p>
-            <div class="app-description" id="typedDescription">
-                <span class="cursor"></span>
+        <div class="top-section">
+            <div class="quote-box" id="quoteBox">
+                "وإن يمسسك الله بضر فلا كاشف له إلا هو"
             </div>
-        </header>
-        
-        <span class="tags-label">اختر طبيعة الشعور أو الفكرة:</span>
-        <div class="tags-container">
-            <span class="tag" onclick="toggleTag(this)">قلق المستقبل</span>
-            <span class="tag" onclick="toggleTag(this)">ظن وسوء تفاهم</span>
-            <span class="tag" onclick="toggleTag(this)">عجز وضغط نفسي</span>
-            <span class="tag" onclick="toggleTag(this)">شعور باليأس والتهويل</span>
-        </div>
 
-        <textarea id="userInput" placeholder="اكتب الفكرة، الموقف، أو الشعور الذي يشغل بالك هنا..."></textarea>
-        
-        <button id="submitBtn" onclick="processIdea()">
-            <span class="spinner" id="btnSpinner"></span>
-            <span id="btnText">تأسيس الوعي وإيجاد الحل العملي</span>
-        </button>
+            <header>
+                <h1>شفرة</h1>
+                <p class="subtitle">تفكيك الأفكار وترتيب الوجهة</p>
+                <div class="app-description" id="typedDescription">مساحة آمنة ومبسطة لمساعدة عقلك على ترتيب أفكاره وفهم مشاعره بعمق وهدوء.</div>
+            </header>
 
-        <div class="result" id="resultBox">
-            <div class="result-section">
-                <div class="result-title">1. تأصيل الفكرة من الوعي القرآني:</div>
-                <div id="quranRoot"></div>
+            <!-- إعدادات المفتاح السرية والآمنة محلياً -->
+            <div class="api-settings" id="apiSettingsBar">
+                <span id="apiKeyLabel">مفتاح API:</span>
+                <input type="password" id="apiKeyInput" placeholder="أدخل مفتاح Google AI Studio هنا...">
+                <button class="action-btn" onclick="saveApiKey()">حفظ</button>
             </div>
+
+            <textarea id="userInput" placeholder="اكتب الفكرة، الموقف، أو الشعور الذي يشغل بالك هنا بكلمات بسيطة..."></textarea>
             
-            <div class="result-section">
-                <div class="result-title">2. التفكيك المعرفي وإعادة التأطير:</div>
-                <div id="reframingText"></div>
-            </div>
+            <button class="action-btn" id="submitBtn" onclick="processIdea()">
+                <span class="spinner" id="btnSpinner"></span>
+                <span id="btnText">ترتيب الفكرة وإيجاد الحل العملي</span>
+            </button>
 
-            <div class="result-section">
-                <div class="result-title">3. الحل العملي المستنبط:</div>
-                <div id="practicalSolution"></div>
-            </div>
+            <div class="result" id="resultBox"></div>
         </div>
 
-        <div class="stats-counter">
-            <span>الأفكار المُعالجة اليوم:</span>
-            <span class="counter-badge" id="ideaCount">0</span>
+        <div class="footer-note">
+            <span>تطبيق <span class="brand-name">شفرة 🌿</span></span>
+            <div>الأفكار المعالجة: <span class="counter-badge" id="ideaCount">0</span></div>
         </div>
     </div>
 
@@ -323,72 +279,93 @@
         let count = 0;
         document.getElementById('quoteBox').innerText = quotes[Math.floor(Math.random() * quotes.length)];
 
-        // تأثير الكتابة حرفاً حرفاً للنص التعريفي
-        const textToType = "مساحة تفاعلية لإعادة بناء طريقة التفكير وإعادة التأطير الوجداني والمعرفي للأفكار والمشكلات، بالاستناد إلى بصائر الوعي القرآني، وتحويل الضغوط والمخاوف إلى رؤية واضحة وحلول عملية مبسطة تجلب السكينة والطمأنينة.";
-        const typedContainer = document.getElementById('typedDescription');
-        let charIndex = 0;
+        // التحقق مما إذا كان المفتاح مخزناً مسبقاً في المتصفح
+        window.onload = function() {
+            const savedKey = localStorage.getItem('gemini_api_key');
+            if (savedKey) {
+                document.getElementById('apiKeyInput').value = savedKey;
+                document.getElementById('apiKeyBar').style.display = 'none'; // إخفاء الشريط إذا كان المفتاح محفوظاً
+            }
+        };
 
-        function typeWriter() {
-            if (charIndex < textToType.length) {
-                const cursor = typedContainer.querySelector('.cursor');
-                const textNode = document.createTextNode(textToType.charAt(charIndex));
-                typedContainer.insertBefore(textNode, cursor);
-                charIndex++;
-                setTimeout(typeWriter, 25);
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (key) {
+                localStorage.setItem('gemini_api_key', key);
+                alert('تم حفظ المفتاح بنجاح في متصفحك!');
+                document.getElementById('apiKeyBar').style.display = 'none';
             } else {
-                const cursor = typedContainer.querySelector('.cursor');
-                if (cursor) cursor.remove();
+                alert('يرجى إدخال مفتاح صالح.');
             }
         }
 
-        window.onload = function() {
-            setTimeout(typeWriter, 400);
-        };
+        async function processIdea() {
+            let apiKey = localStorage.getItem('gemini_api_key') || document.getElementById('apiKeyInput').value.trim();
+            
+            if (!apiKey) {
+                alert('يرجى إدخال مفتاح الـ API الخاص بـ Google AI Studio في الخانة المخصصة أولاً.');
+                document.getElementById('apiKeyBar').style.display = 'flex';
+                return;
+            }
 
-        function toggleTag(element) {
-            element.classList.toggle('active');
-        }
-
-        function processIdea() {
             const input = document.getElementById('userInput').value.trim();
             if (!input) {
                 alert('يرجى كتابة الفكرة أو الشعور أولاً.');
                 return;
             }
 
-            const activeTag = document.querySelector('.tag.active');
-            const tagText = activeTag ? activeTag.innerText : 'الوعي العام';
-
             const btnText = document.getElementById('btnText');
             const btnSpinner = document.getElementById('btnSpinner');
             const resultBox = document.getElementById('resultBox');
-            
-            const quranRoot = document.getElementById('quranRoot');
-            const reframingText = document.getElementById('reframingText');
-            const practicalSolution = document.getElementById('practicalSolution');
             const counter = document.getElementById('ideaCount');
 
             btnSpinner.style.display = 'inline-block';
-            btnText.innerText = 'جاري استجلاء الوعي القرآني واستنباط الحل...';
+            btnText.innerText = 'جاري التفكير وتحليل الفكرة...';
             resultBox.style.display = 'none';
 
-            setTimeout(() => {
-                btnSpinner.style.display = 'none';
-                btnText.innerText = 'تأسيس الوعي وإيجاد الحل العملي';
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            const systemInstruction = "أنت مساعد فكري ومعرفي مستوحى من الفكر النقدي وبصائر الدكتور نايف بن نهار. مهمتك هي: تفكيك الأفكار والأسئلة التي يطرحها المستخدم، كشف الخلفيات والتناقضات المعرفية إن وجدت، تقديم تحليل عقلي رصين وعميق، وصياغة حل عملي مبسط ومفهوم لكل الناس دون تعقيد. اجعل الإجابة مرتبة ومنسقة في نقاط واضحة.";
+
+            const data = {
+                contents: [
+                    {
+                        parts: [
+                            { text: systemInstruction + "\n\nفكرة المستخدم أو شعوره هو: " + input }
+                        ]
+                    }
+                ]
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const resData = await response.json();
                 
-                quranRoot.innerHTML = `هذه الفكرة (${input}) تتعلق بـ (${tagText}). يخبرنا القرآن الكريم أن الخواطر التي تُقلق الإنسان غالباً ما تنبع من استباق الأقدار أو تضخيم المخاوف، وكما قال تعالى: <span class="quran-verse">"إن الظن لا يغني من الحق شيئاً"</span>، فالقلب حين يغفل عن اليقين يستوحش من الظنون.`;
+                if (resData.error) {
+                    throw new Error(resData.error.message);
+                }
 
-                reframingText.innerHTML = `عقلك يتعامل مع فكرتك الحالية على أنها مأزق نهائي أو تهديد حقيقي، بينما هي في ميزان القرآن مجرد اختبار مؤقت أو "ابتلاء تقدير" لحكمة بالغة. الله سبحانه وتعالى لا يُحمل نفساً فوق وسعها، وما يبدو لك عقبة صعبة هو مسار إرساء للثقة والتوكل.`;
+                const reply = resData.candidates[0].content.parts[0].text;
 
-                practicalSolution.innerHTML = `<strong>الخطوة العملية:</strong> حرر مشاعرك من السيطرة الوهمية عبر تفويض الأمر (التوكل الفعلي)، وقسّم التحدي إلى عمل يومي صغير ومحدد، واردد بقلبك يقين الآية: <span class="quran-verse">"حسبي الله لا إله إلا هو عليه توكلت"</span> مع التركيز فقط على ما يقع ضمن قدرتك وصلاحيتك اليوم.`;
-
+                resultBox.innerText = reply;
                 resultBox.style.display = 'block';
                 count++;
                 counter.innerText = count;
-            }, 1000);
+            } catch (error) {
+                resultBox.innerText = "حدث خطأ في الاتصال أو أن مفتاح الـ API غير صحيح. يرجى التأكد من المفتاح.";
+                resultBox.style.display = 'block';
+                document.getElementById('apiKeyBar').style.display = 'flex'; // إظهار خانة المفتاح مجدداً للتعديل
+            } finally {
+                btnSpinner.style.display = 'none';
+                btnText.innerText = 'ترتيب الفكرة وإيجاد الحل العملي';
+            }
         }
     </script>
 
 </body>
-            </html>
-            
+    </html>
+    
