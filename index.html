@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -199,7 +198,7 @@
             </div>
         </header>
 
-        <!-- منطقة الكتابة وزر الإرسال (بدون أي خانات للمفتاح) -->
+        <!-- منطقة الكتابة وزر الإرسال -->
         <div class="input-group">
             <textarea id="userInput" placeholder="اكتب الفكرة، الموقف، أو الشعور الذي يشغل بالك هنا..."></textarea>
             
@@ -220,7 +219,7 @@
     </div>
 
     <script>
-        // دمج المفتاح مباشرة بشكل نهائي
+        // المفتاح المدمج مباشرة
         const apiKey = "AQ.Ab8RN6KWFN77T1ZFiL-2i2MvfBHrVOYs0ftBA08tPBs5ZGryDQ";
 
         const quotes = [
@@ -249,8 +248,8 @@
             btnText.innerText = 'جاري التفكير وتحليل الفكرة...';
             resultBox.style.display = 'none';
 
-            // استخدام النموذج المستقر المباشر
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+            // التحديث الجذري: استخدام مسار الإصدار الحديث v1 والنموذج النشط gemini-2.5-flash
+            const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
             const systemInstruction = "أنت مساعد فكري ومعرفي مستوحى من الفكر النقدي وبصائر الدكتور نايف بن نهار. مهمتك هي: تفكيك الأفكار والأسئلة التي يطرحها المستخدم، كشف الخلفيات والتناقضات المعرفية إن وجدت، تقديم تحليل عقلي رصين وعميق، وصياغة حل عملي مبسط ومفهوم لكل الناس دون تعقيد. اجعل الإجابة مرتبة ومنسقة في نقاط واضحة.";
 
             const data = {
