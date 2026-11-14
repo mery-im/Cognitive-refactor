@@ -173,6 +173,7 @@
             line-height: 1.8;
             white-space: pre-line;
             font-size: 15px;
+            direction: auto;
         }
 
         .footer-note {
@@ -324,8 +325,8 @@
             btnText.innerText = 'جاري التفكير وتحليل الفكرة...';
             resultBox.style.display = 'none';
 
-            // استخدام النموذج الفعال والمعتمد gemini-2.5-flash
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+            // استخدام النموذج المحدث الصحيح gemini-3.8-flash
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
             const systemInstruction = "أنت مساعد فكري ومعرفي مستوحى من الفكر النقدي وبصائر الدكتور نايف بن نهار. مهمتك هي: تفكيك الأفكار والأسئلة التي يطرحها المستخدم، كشف الخلفيات والتناقضات المعرفية إن وجدت، تقديم تحليل عقلي رصين وعميق، وصياغة حل عملي مبسط ومفهوم لكل الناس دون تعقيد. اجعل الإجابة مرتبة ومنسقة في نقاط واضحة.";
 
             const data = {
@@ -371,4 +372,5 @@
     </script>
 
 </body>
-</html>
+    </html>
+    
